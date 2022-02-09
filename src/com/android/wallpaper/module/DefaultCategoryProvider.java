@@ -20,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 
 import com.android.wallpaper.R;
+import com.android.wallpaper.model.AppResourceWallpaperInfo;
 import com.android.wallpaper.model.Category;
 import com.android.wallpaper.model.CategoryProvider;
 import com.android.wallpaper.model.CategoryReceiver;
@@ -146,7 +147,7 @@ public class DefaultCategoryProvider implements CategoryProvider {
             publishDeviceCategories(formFactor);
 
             // Live wallpapers -- if the device supports them.
-            if (mAppContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_LIVE_WALLPAPER)) {
+            if (false && mAppContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_LIVE_WALLPAPER)) {
                 List<WallpaperInfo> liveWallpapers = LiveWallpaperInfo.getAll(
                         mAppContext, getExcludedLiveWallpaperPackageNames());
                 if (liveWallpapers.size() > 0) {
@@ -161,7 +162,7 @@ public class DefaultCategoryProvider implements CategoryProvider {
             }
 
             // Third party apps -- only on mobile.
-            if (formFactor == FormFactorChecker.FORM_FACTOR_MOBILE) {
+            if (false && formFactor == FormFactorChecker.FORM_FACTOR_MOBILE) {
                 List<ThirdPartyAppCategory> thirdPartyApps = ThirdPartyAppCategory.getAll(
                         mAppContext, PRIORITY_THIRD_PARTY, getExcludedThirdPartyPackageNames());
                 for (ThirdPartyAppCategory thirdPartyApp : thirdPartyApps) {
@@ -198,7 +199,8 @@ public class DefaultCategoryProvider implements CategoryProvider {
          * "On-device wallpapers" category.
          */
         protected List<WallpaperInfo> getPrivateDeviceWallpapers() {
-            return null;
+            return AppResourceWallpaperInfo.getAll(mAppContext,
+                    mAppContext.getApplicationInfo(), R.array.wallpapers);
         }
 
         /**
